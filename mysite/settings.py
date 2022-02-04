@@ -25,12 +25,14 @@ SECRET_KEY = 'django-insecure-!cd0v*xol@f6k=q5k1i=**i(15bpm3dka8ipdd45mk+p7it!th
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["https://gitpodio-templatepythond-xjno679ten2.ws-us27.gitpod.io/", "0.0.0.0", "8080-gitpodio-templatepythond-xjno679ten2.ws-us27.gitpod.io", "https://8080-gitpodio-templatepythond-xjno679ten2.ws-us27.gitpod.io"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'selfie',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +42,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -99,6 +103,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = ['https://platform.appgyver.com']
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
