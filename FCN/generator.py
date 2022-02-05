@@ -1,8 +1,8 @@
 import os
 import cv2
 import numpy as np
-from tensorflow as tf
-from sklearn as preprocessing
+import tensorflow as tf
+import sklearn as preprocessing
 
 class Generator(tf.keras.utils.Sequence):
     """
