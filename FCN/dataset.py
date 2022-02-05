@@ -3,7 +3,7 @@ from shutil import copy2
 import numpy as np
 import tensorflow as tf
 
-def split(BASE_PATH = '/eCybermission/selfies', DATASET_PATH = '/eCybermission/dataset', TRAIN_SIZE = 100, TEST_SIZE = 100):
+def split(BASE_PATH = '/eCybermission/selfies', DATASET_PATH = '/eCybermission/dataset', TRAIN_SIZE = 300, TEST_SIZE = 200):
     """
         This is used to create a directory called dataset
         The final structure of the directory should look like this:
@@ -14,6 +14,7 @@ def split(BASE_PATH = '/eCybermission/selfies', DATASET_PATH = '/eCybermission/d
             - testing
                 - popular
                 - not-popular
+        The dataset/training and dataset/testing directories are the two directories that will be utilized by data generators.
     """
 
     #list of paths of class directories within image directory
