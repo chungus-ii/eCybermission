@@ -117,6 +117,38 @@ class Generator(tf.keras.utils.Sequence):
     def construct_image_batch(self, loaded_image_group):
         """
         This method uses the loaded image_group from load images to create an image batch.
-        This is also where images that are smaller than the largest image will have zeros added to it.
+        This is also where images that are smaller than the largest image will have zeros added to fit the model.
         """
-        #TODO: Complete this method, then finish generator.py
+        #get the shape of the largest image
+        largest_shape = tuple(max(image.shape[x] for image in loaded_image_group) for x in range(3))
+        #create an image batch object, with each image being an empty set of pixels the size of the largest image
+        image_batch = np.zeros((self.batch_size,) + largest_shape, dtype='float32')
+        #iterate through image_group, using enumerate to access both the image and the index of the image, i.e., (4, '4th_image')
+        for index, image in enumerate(loaded_image_group):
+            """
+            Filling the image in the batch from the upper left part of image, replacing the empty pixels with pixels from the 
+            actual image. The model will learn to ignore the extra empty space.
+            """
+            image_batch[index, :image.shape[0], :image.shape[1], :image.shape[2]] = image
+        return image_batch
+
+    def __len__(self):
+        """
+        The number of batches in the generator.
+        This will be called for the len() function
+        """
+        return len(self.image_groups)
+
+    def __getitem__(self, index):
+        """
+        This is the Keras sequence method for generating batches, all of the code builds up to this point
+        """
+        #getting 1 group of images and it's labels
+        image_group = self.image_groups[index]
+        label_group = self.label_groups[index]
+        #converting the image group (image paths) into images
+        loaded_images = self.load_images(image_group)
+        #creating the image batch and aerating the images
+        image_batch = self.construct_image_batch(loaded_images)
+        #The culmination of all the work put into this file!
+        return np.array(image_batch), np.array(label_group)
