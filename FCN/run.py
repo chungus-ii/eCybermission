@@ -8,40 +8,50 @@ from tensorflow import keras
 import os
 
 def create_FCN_model():
-    DATASET_PATH = 'eCybermission/dataset'
+    #creating a dataset
     split()
-    print('Finished Creating Dataset...')
+    print('Finished creating dataset...')
+    #compiling model
     model = FCN_model()
+    print('Model compiled...')
+    #creating generator objects
     train_generator = Generator('eCybermission/dataset/training')
     test_generator = Generator('eCybermission/dataset/testing')
+    print('Data generators created...')
     print('Training...')
+    #training and saving model
     model_history = train(model, train_generator, test_generator, epochs=30, 'eCybermission/trained_models', modeltype='FCN')
     print('Completed Training, Model Saved.')
 
 def create_FCN_Dense_model():
-    DATASET_PATH = 'eCybermission/dataset'
+    #creating a dataset
     split()
     print('Finished Creating Dataset...')
+    #compiling model
     model = FCN_Dense_model()
+    print('Model compiled...')
+    #creating generator objects
     train_generator = Generator('eCybermission/dataset/training')
     test_generator = Generator('eCybermission/dataset/testing')
+    print('Data generators created...')
     print('Training...')
+    #training and saving model
     model_history = train(model, train_generator, test_generator, epochs=30, 'eCybermission/trained_models', modeltype='FCN-Dense-Layers')
     print('Completed Training, Model Saved.')
 
-def use_model(base64string, IMAGE_DIRECTORY_PATH='eCybermission/FCN/images'):
+def use_model(base64string, IMAGE_DIRECTORY_PATH='eCybermission/FCN/images', MODEL_PATH, model_type):
+    #deleting replacing any earlier images that were used
     if os.path.exists(IMAGE_DIRECTORY_PATH):
         shutil.rmtree(IMAGE_DIRECTORY_PATH)
+    #creating image directory
     os.makedirs(IMAGE_DIRECTORY_PATH)
+    #saving base64 string as image and putting it the correct location
     image_path = os.path.join(IMAGE_DIRECTORY_PATH, 'info-image.jpg')
     image_data = base64.decodebytes(base64string)
     img = Image.open(io.BytesIO(image_data))
     img.save(image_path, 'jpeg')
-    """
-    Finished saving the base64 string as an image file.
-    """
-    print("Image saved...")
-    #Putting the image into an image batch
+    print('Image saved...')
+    #Putting the image into an image batch (same method as in generator.py!)
     image_group = []
     image_group.append(cv2.imread(image_path)[:,:,::-1])
     BATCH_SIZE = len(image_group)
@@ -49,8 +59,19 @@ def use_model(base64string, IMAGE_DIRECTORY_PATH='eCybermission/FCN/images'):
     image_batch = np.zeros((BATCH_SIZE,) + largest_shape, dtype='float32')
     for index, image in enumerate(image_group):
         image_batch[index, :image.shape[0], :image.shape[1], :image.shape[2]] = image
-    """
-    At this point, the image batch is prepared, and ready to be put into the model.
-    """
-    print("Image batch created...")
-    #TODO: finish making prediction with model
+    ready_to_use = np.array(image_batch)
+    print('Image batch created...')
+    #create model
+    if model_type == 'FCN':
+        model = FCN_model()
+    elif model_type == 'FCN_Dense':
+        model = FCN_Dense_model()
+    print('Model created...')
+    #apply weights of saved model to new model (can be done because models share same structure)
+    model = load_weights(MODEL_PATH)
+    print('Model restored...')
+    #making predictions
+    predictions = model.predict(ready_to_use)
+    print('Predictions made, returning predictions.')
+    print(predictions)
+    return predictions
