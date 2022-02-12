@@ -2,6 +2,7 @@ from dataset import split
 from generator import Generator
 from model import FCN_model, FCN_Dense_model
 from train import train
+from PIL import Image
 import base64
 import tensorflow as tf
 import os
