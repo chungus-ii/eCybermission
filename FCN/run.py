@@ -4,7 +4,6 @@ from model import FCN_model, FCN_Dense_model
 from train import train
 import base64
 import tensorflow as tf
-from tensorflow import keras
 import os
 
 def create_FCN_model():
@@ -20,7 +19,7 @@ def create_FCN_model():
     print('Data generators created...')
     print('Training...')
     #training and saving model
-    model_history = train(model, train_generator, test_generator, epochs=30, 'eCybermission/trained_models', modeltype='FCN')
+    model_history = train(model=model, train_generator=train_generator, test_generator=test_generator, directory_path='eCybermission/trained_models', modeltype='FCN', epochs=30)
     print('Completed Training, Model Saved.')
 
 def create_FCN_Dense_model():
@@ -36,10 +35,10 @@ def create_FCN_Dense_model():
     print('Data generators created...')
     print('Training...')
     #training and saving model
-    model_history = train(model, train_generator, test_generator, epochs=30, 'eCybermission/trained_models', modeltype='FCN-Dense-Layers')
+    model_history = train(model=model, train_generator=train_generator, test_generator=test_generator, directory_path='eCybermission/trained_models', modeltype='FCN-Dense-Layers', epochs=30)
     print('Completed Training, Model Saved.')
 
-def use_model(base64string, IMAGE_DIRECTORY_PATH='eCybermission/FCN/images', MODEL_PATH, model_type):
+def use_model(base64string, MODEL_PATH, model_type, IMAGE_DIRECTORY_PATH='eCybermission/FCN/images'):
     #deleting replacing any earlier images that were used
     if os.path.exists(IMAGE_DIRECTORY_PATH):
         shutil.rmtree(IMAGE_DIRECTORY_PATH)
@@ -64,7 +63,7 @@ def use_model(base64string, IMAGE_DIRECTORY_PATH='eCybermission/FCN/images', MOD
     #create model
     if model_type == 'FCN':
         model = FCN_model()
-    elif model_type == 'FCN_Dense':
+    elif model_type == 'FCN-Dense-Layers':
         model = FCN_Dense_model()
     print('Model created...')
     #apply weights of saved model to new model (can be done because models share same structure)

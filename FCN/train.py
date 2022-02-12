@@ -3,7 +3,7 @@ import tensorflow as tf
 from model import FCN_model, FCN_Dense_model
 from generator import Generator
 
-def train(model, train_generator, test_generator, epochs = 30, directory_path, modeltype):
+def train(model, train_generator, test_generator, directory_path, modeltype, epochs = 30):
     """
     This is the function that will be called for training the model.
     It can be used for both the FCN_model and the FCN_model.
