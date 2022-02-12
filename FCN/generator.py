@@ -7,6 +7,7 @@ import sklearn as preprocessing
 class Generator(tf.keras.utils.Sequence):
     """
     This is the data generator class that defines the data generator objects that will be used in training and testing the model.
+    The purpose of the generator is to give the images in batches, rather than loading them all into batches.
     All of the methods are made to initialize data or return data through the __getitem__ method, which is the Keras sequence 
     method for generating batches.
     """
@@ -19,13 +20,13 @@ class Generator(tf.keras.utils.Sequence):
         self.image_min_side = image_min_side
         #saving image paths and labels during initialization
         self.load_image_paths_labels(DATASET_PATH)
-    
+
     def load_image_paths_and_labels(self, DATASET_PATH):
         """
         This is used to load a list of image paths and a list of their labels.
         This information will be saved to the object during initialization.
         """
-        
+
         #list of paths of class directories within image directory
         classes = os.listdir(DATASET_PATH)
         #creation of LabelBinarizer object, 
@@ -36,7 +37,7 @@ class Generator(tf.keras.utils.Sequence):
         #creating lists for image paths and label
         self.image_paths = []
         self.image_labels = []
-        
+
         #iterating through each class
         for class_name in classes:
             #path for the current class
@@ -88,7 +89,7 @@ class Generator(tf.keras.utils.Sequence):
         #for some reason, cv2.resize() expects the tuple to be (width, height)
         new_image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_AREA)
         return new_image
-    
+
     def load_images(self, image_group):
         """
         This method uses image paths to load images, and ensures that they meet the requirement of image_min_side.
