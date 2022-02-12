@@ -26,15 +26,15 @@ def split(BASE_PATH = '/eCybermission/selfies', DATASET_PATH = '/eCybermission/d
 
     #new directory for dataset
     os.makedirs(DATASET_PATH)
-    
+
     #create training set directory inside of dataset directory
     training_directory = os.path.join(DATASET_PATH, 'training')
     os.makedirs(training_directory)
-    
+
     #create testing directory inside of dataset directory
     testing_directory = os.path.join(DATASET_PATH, 'testing')
     os.makedirs(testing_directory)
-    
+
     #copying images from image directory into dataset directory
     for class_name in classes:
         print(f"Copying images for {class_name} images...")
