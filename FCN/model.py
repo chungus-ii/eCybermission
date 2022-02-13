@@ -58,7 +58,7 @@ def FCN_Dense_model(len_classes=2, dropout_rate=0.2):
     predictions = tf.keras.layers.Activation('softmax')(x)
 
     model = tf.keras.Model(inputs=input, outputs=predictions)
-    
+
     print(model.summary())
     print(f'Total number of layers: {len(model.layers)}')
 
