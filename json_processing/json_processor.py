@@ -33,7 +33,7 @@ def process(PATH_TO_JSON_FILE):
         urllib.request.urlretrieve(post['displayUrl'], f'good_img_{index}.jpg')
         img = Image.open(f'good_img_{index}.jpg')
         img.save(f'good_img_{index}.jpg')
-    os.chdir(os.path.abspath(os.path.join(os.path.abspath(__file__), '..', '..','selfies/bad')))
+    os.chdir(os.path.abspath(os.path.join(os.path.abspath(__file__), '..', '..','bad')))
     for index, post in enumerate(bottom_posts):
         urllib.request.urlretrieve(post['displayUrl'], f'bad_img_{index}.jpg')
         img = Image.open(f'bad_img_{index}.jpg')
