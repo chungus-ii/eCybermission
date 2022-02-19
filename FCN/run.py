@@ -48,7 +48,7 @@ class Run():
         os.makedirs(IMAGE_DIRECTORY_PATH)
         #saving base64 string as image and putting it the correct location
         image_path = os.path.join(IMAGE_DIRECTORY_PATH, 'info-image.jpg')
-        image_data = base64.b64decode(s)(base64string)
+        image_data = base64.b64decode(base64string)
         img = Image.open(io.BytesIO(image_data))
         img.save(image_path, 'jpeg')
         print('Image saved...')
