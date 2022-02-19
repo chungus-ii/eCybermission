@@ -4,3 +4,4 @@ opencv_python_headless==3.4.17.61
 Pillow==9.0.1
 scikit_learn==1.0.2
 tensorflow==2.6.2
+django-cors-headers
