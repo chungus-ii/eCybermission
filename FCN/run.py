@@ -4,7 +4,7 @@ from .generator import Generator
 from .model import FCN_model, FCN_Dense_model
 from .train import train
 from PIL import Image
-import base64, os, sys, shutil
+import base64, os, sys, shutil, io
 
 class Run():
     def create_FCN_model(self):
