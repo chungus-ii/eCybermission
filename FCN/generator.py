@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 import tensorflow as tf
-import sklearn as preprocessing
+from sklearn import preprocessing
 
 class Generator(tf.keras.utils.Sequence):
     """
@@ -13,13 +13,15 @@ class Generator(tf.keras.utils.Sequence):
     """
 
     #DATASET_PATH is the training directory or the testing directory, not the directory that contains both
-    def init(self, DATASET_PATH, BATCH_SIZE = 64, image_min_side = 50):
+    def __init__(self, DATASET_PATH, BATCH_SIZE = 4, image_min_side = 50):
         #size of the batches that will be generated
         self.batch_size = BATCH_SIZE
         #if the image's smalles side is smaller than this, it will be enarged while keeping it's aspect ratio
         self.image_min_side = image_min_side
         #saving image paths and labels during initialization
-        self.load_image_paths_labels(DATASET_PATH)
+        ABSOLUTE_DATASET_PATH = os.path.join(os.path.dirname(__file__), '..', '..', DATASET_PATH)
+        self.load_image_paths_and_labels(ABSOLUTE_DATASET_PATH)
+        self.create_image_groups()
 
     def load_image_paths_and_labels(self, DATASET_PATH):
         """

@@ -3,7 +3,7 @@ from shutil import copy2
 import numpy as np
 import tensorflow as tf
 
-def split(BASE_PATH = '/eCybermission/selfies', DATASET_PATH = '/eCybermission/dataset', TRAIN_SIZE = 300, TEST_SIZE = 200):
+def split(BASE_PATH = 'selfies/', DATASET_PATH = 'dataset/', TRAIN_SIZE = 50, TEST_SIZE = 50):
     """
         This is used to create a directory called dataset
         The final structure of the directory should look like this:
@@ -16,23 +16,25 @@ def split(BASE_PATH = '/eCybermission/selfies', DATASET_PATH = '/eCybermission/d
                 - not-popular
         The dataset/training and dataset/testing directories are the two directories that will be utilized by data generators.
     """
+    ABSOLUTE_DATASET_PATH = os.path.join(os.path.dirname(__file__), '..', DATASET_PATH)
+    ABSOLUTE_BASE_PATH = os.path.join(os.path.dirname(__file__), '..', BASE_PATH)
 
     #if dataset exists, remove it to create a new one
-    if os.path.exists(DATASET_PATH):
-        shutil.rmtree(DATASET_PATH)
+    if os.path.exists(ABSOLUTE_DATASET_PATH):
+        shutil.rmtree(ABSOLUTE_DATASET_PATH)
 
     #list of paths of class directories within image directory
-    classes = os.listdir(BASE_PATH)
+    classes = os.listdir(ABSOLUTE_BASE_PATH)
 
     #new directory for dataset
-    os.makedirs(DATASET_PATH)
+    os.makedirs(ABSOLUTE_DATASET_PATH)
 
     #create training set directory inside of dataset directory
-    training_directory = os.path.join(DATASET_PATH, 'training')
+    training_directory = os.path.join(ABSOLUTE_DATASET_PATH, 'training')
     os.makedirs(training_directory)
 
     #create testing directory inside of dataset directory
-    testing_directory = os.path.join(DATASET_PATH, 'testing')
+    testing_directory = os.path.join(ABSOLUTE_DATASET_PATH, 'testing')
     os.makedirs(testing_directory)
 
     #copying images from image directory into dataset directory
@@ -48,7 +50,7 @@ def split(BASE_PATH = '/eCybermission/selfies', DATASET_PATH = '/eCybermission/d
         os.makedirs(class_test)
 
         #shuffle the image list before seperation
-        class_path = os.path.join(BASE_PATH, class_name)
+        class_path = os.path.join(ABSOLUTE_BASE_PATH, class_name)
         class_images_list = os.listdir(class_path)
         np.random.shuffle(class_images_list)
 
