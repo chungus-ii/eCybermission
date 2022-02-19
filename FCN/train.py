@@ -1,7 +1,7 @@
 import os
 import tensorflow as tf
-from model import FCN_model, FCN_Dense_model
-from generator import Generator
+from .model import FCN_model, FCN_Dense_model
+from .generator import Generator
 
 def train(model, train_generator, test_generator, direct_path, modeltype, epochs = 2):
     """
