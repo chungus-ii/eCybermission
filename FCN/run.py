@@ -1,10 +1,11 @@
 import tensorflow as tf
+import numpy as np
 from .dataset import split
 from .generator import Generator
 from .model import FCN_model, FCN_Dense_model
 from .train import train
 from PIL import Image
-import base64, os, sys, shutil, io
+import base64, os, sys, shutil, io, re, cv2
 
 class Run():
     def create_FCN_model(self):
@@ -48,10 +49,18 @@ class Run():
         os.makedirs(IMAGE_DIRECTORY_PATH)
         #saving base64 string as image and putting it the correct location
         image_path = os.path.join(IMAGE_DIRECTORY_PATH, 'info-image.jpg')
-        image_data = base64.b64decode(base64string)
+        #image_data = base64.b64decode(str(base64string))
+        #img = Image.open(io.BytesIO(image_data))
+        #img.save(image_path, 'jpeg')
+        base64string = base64string.split(",")[1]
+        data = re.sub(rb'[^a-zA-Z0-9%s]+' % b'+/', b'', base64string.encode("utf-8"))  # normalize
+        missing_padding = len(data) % 4
+        if missing_padding:
+            data += b'='* (4 - missing_padding)
+        image_data = base64.b64decode(data, b'+/')
         img = Image.open(io.BytesIO(image_data))
-        img.save(image_path, 'jpeg')
         print('Image saved...')
+        img.save(image_path, 'jpeg')
         #Putting the image into an image batch (same method as in generator.py!)
         image_group = []
         image_group.append(cv2.imread(image_path)[:,:,::-1])
@@ -69,10 +78,10 @@ class Run():
             model = FCN_Dense_model()
         print('Model created...')
         #apply weights of saved model to new model (can be done because models share same structure)
-        model = load_weights(MODEL_PATH)
+        model.load_weights(MODEL_PATH)
         print('Model restored...')
         #making predictions
-        predictions = model.predict(ready_to_use)
+        predictions = (model.predict(ready_to_use)).tolist()
         print('Predictions made, returning predictions.')
         print(predictions)
         return predictions
