@@ -16,7 +16,6 @@ def name(request, name):
 @csrf_exempt
 def image(request):
     base64string = json.loads(request.body)
-    print(base64string)
     run = Run()
     model_path = os.path.join(os.path.dirname(__file__), '..', '..', 'eCybermission/trained_models/(Model:FCN-Dense-Layers)_(Epoch:03)_(MAE_Loss:0.37).h5')
     image_directory_path = os.path.join(os.path.dirname(__file__), '..', '..', 'eCybermission/FCN/images')

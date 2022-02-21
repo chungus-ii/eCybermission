@@ -52,15 +52,24 @@ class Run():
         #image_data = base64.b64decode(str(base64string))
         #img = Image.open(io.BytesIO(image_data))
         #img.save(image_path, 'jpeg')
-        base64string = base64string.split(",")[1]
+        if not isinstance(base64string, str):
+            if ',' in base64string['content']:
+                base64string = base64string['content'].split(',')[1]
+            else:
+                base64string = base64string['content']
+        else:
+            if ',' in base64string:
+                base64string = base64string.split(',')[1]
         data = re.sub(rb'[^a-zA-Z0-9%s]+' % b'+/', b'', base64string.encode("utf-8"))  # normalize
         missing_padding = len(data) % 4
         if missing_padding:
             data += b'='* (4 - missing_padding)
         image_data = base64.b64decode(data, b'+/')
         img = Image.open(io.BytesIO(image_data))
-        print('Image saved...')
+        if img.mode == 'RGBA':
+            img = img.convert('RGB')
         img.save(image_path, 'jpeg')
+        print('Image saved...')
         #Putting the image into an image batch (same method as in generator.py!)
         image_group = []
         image_group.append(cv2.imread(image_path)[:,:,::-1])
@@ -84,7 +93,8 @@ class Run():
         predictions = (model.predict(ready_to_use)).tolist()
         print('Predictions made, returning predictions.')
         print(predictions)
-        return predictions
+        shutil.rmtree(IMAGE_DIRECTORY_PATH)
+        return predictions[0]
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
