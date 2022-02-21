@@ -1,9 +1,9 @@
 import tensorflow as tf
 import numpy as np
-from .dataset import split
-from .generator import Generator
-from .model import FCN_model, FCN_Dense_model
-from .train import train
+from dataset import split
+from generator import Generator
+from model import FCN_model, FCN_Dense_model
+from train import train
 from PIL import Image
 import base64, os, sys, shutil, io, re, cv2
 
@@ -37,7 +37,7 @@ class Run():
         print('Data generators created...')
         print('Training...')
         #training and saving model
-        model_history = train(model=model, train_generator=train_generator, test_generator=test_generator, direct_path='eCybermission/trained_models', modeltype='FCN-Dense-Layers', epochs=2)
+        model_history = train(model=model, train_generator=train_generator, test_generator=test_generator, direct_path='eCybermission/trained_models', modeltype='FCN-Dense-Layers', epochs=3)
         print('Completed Training, Model Saved.')
 
     def use_model(self, base64string='', MODEL_PATH='', model_type='FCN-Dense-Layers', IMAGE_DIRECTORY_PATH='eCybermission/FCN/images'):
@@ -91,9 +91,9 @@ if __name__ == '__main__':
         sys.exit('Improper Usage: must be 2 arguments.')
     run = Run()
     if sys.argv[1] == 'FCN':
-        create_FCN_model()
+        run.create_FCN_model()
         sys.exit('FCN Model created, trained, tested, and saved.')
     elif sys.argv[1] == 'Dense':
-        create_FCN_Dense_model()
+        run.create_FCN_Dense_model()
         sys.exit('FCN Dense Model created, trained, tested, and saved.')
     sys.exit('Improper Usage: argument must be FCN or Dense')

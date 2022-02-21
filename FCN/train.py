@@ -1,7 +1,7 @@
 import os
 import tensorflow as tf
-from .model import FCN_model, FCN_Dense_model
-from .generator import Generator
+from model import FCN_model, FCN_Dense_model
+from generator import Generator
 
 def train(model, train_generator, test_generator, direct_path, modeltype, epochs = 2):
     """
@@ -18,16 +18,16 @@ def train(model, train_generator, test_generator, direct_path, modeltype, epochs
         os.makedirs(directory_path)
     #creating a file name that gives information about the model
     if modeltype == 'FCN':
-        model_path = os.path.join(directory_path, '(Model:FCN)_(Epoch:{epoch:02d})_(Loss:{val_loss:.2f})_(Accuracy:{val_accuracy:.2f}).h5')
+        model_path = os.path.join(directory_path, '(Model:FCN)_(Epoch:{epoch:02d})_(MAE_Loss:{val_loss:.2f}).h5')
     elif modeltype == 'FCN-Dense-Layers':
-        model_path = os.path.join(directory_path, '(Model:FCN-Dense-Layers)_(Epoch:{epoch:02d})_(Loss:{val_loss:.2f})_(Accuracy:{val_accuracy:.2f}).h5')
+        model_path = os.path.join(directory_path, '(Model:FCN-Dense-Layers)_(Epoch:{epoch:02d})_(MAE_Loss:{val_loss:.2f}).h5')
     #training the model
     #model.fit returns a history callback object which contains the accuracy, loss, and other training metrics for each epoch
     model_history = model.fit(
         train_generator,
         steps_per_epoch = len(train_generator),
         epochs = epochs,
-        callbacks = [tf.keras.callbacks.ModelCheckpoint(model_path, monitor='val_accuracy', save_best_only=True, verbose=1)],
+        callbacks = [tf.keras.callbacks.ModelCheckpoint(model_path, monitor='val_loss', save_best_only=True, verbose=1)],
         validation_data = test_generator,
         validation_steps = len(test_generator)
     )
