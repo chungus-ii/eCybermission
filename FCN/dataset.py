@@ -2,7 +2,7 @@ import os, cv2, shutil
 import numpy as np
 import tensorflow as tf
 
-def split(BASE_PATH = 'selfies/', DATASET_PATH = 'dataset/', TRAIN_SIZE = 225, TEST_SIZE = 75):
+def split(BASE_PATH = 'selfies/', DATASET_PATH = 'dataset/', TRAIN_SIZE = 240, TEST_SIZE = 60):
     """
         This is used to create a directory called dataset
         The final structure of the directory should look like this:
