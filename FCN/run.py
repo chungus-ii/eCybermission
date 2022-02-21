@@ -1,9 +1,9 @@
 import tensorflow as tf
 import numpy as np
-from dataset import split
-from generator import Generator
-from model import FCN_model, FCN_Dense_model
-from train import train
+from .dataset import split
+from .generator import Generator
+from .model import FCN_model, FCN_Dense_model
+from .train import train
 from PIL import Image
 import base64, os, sys, shutil, io, re, cv2
 
