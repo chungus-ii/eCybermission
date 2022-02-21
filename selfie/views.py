@@ -1,7 +1,8 @@
+from FCN import Run
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-import json
+import json, os
 
 # Create your views here.
 def index(request):
@@ -15,10 +16,8 @@ def name(request, name):
 @csrf_exempt
 def image(request):
     base64string = json.loads(request.body)
-    print(base64string)
-    #print(f"The data is {data}")
-    #base64string = data.get("content")
-    stringlength = len(base64string) - len("data:image/png;base64,")
-    sizeInBytes = (stringlength * 3/4) - base64string.count('=', -2)
-    print(round(sizeInBytes))
-    return JsonResponse({"size":round(sizeInBytes)})
+    run = Run()
+    model_path = os.path.join(os.path.dirname(__file__), '..', '..', 'eCybermission/trained_models/(Model:FCN-Dense-Layers)_(Epoch:03)_(MAE_Loss:0.37).h5')
+    image_directory_path = os.path.join(os.path.dirname(__file__), '..', '..', 'eCybermission/FCN/images')
+    prediction = run.use_model(base64string=base64string, MODEL_PATH=model_path, model_type='FCN-Dense-Layers', IMAGE_DIRECTORY_PATH=image_directory_path)
+    return JsonResponse({"prediction":prediction})

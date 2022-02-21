@@ -1,14 +1,16 @@
 tasks:
   - init: |
-      python -m pip install --upgrade pip
-      python -m pip install Django
-      python manage.py migrate
+      pyenv install 3.9.0
+      pyenv local 3.9.0
+      python3 -m pip install --upgrade pip
+      python3 -m pip install Django
+      python3 manage.py migrate
     command: |
-      python manage.py runserver
+      python3 manage.py runserver 0.0.0.0:8080
   
 ports:
-  - port: 8000
-    visibility: private
+  - port: 8080
+    visibility: public
     onOpen: ignore
 
 vscode:
