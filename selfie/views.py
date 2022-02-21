@@ -18,7 +18,7 @@ def image(request):
     base64string = json.loads(request.body)
     print(base64string)
     run = Run()
-    model_path = os.path.join(os.path.dirname(__file__), '..', '..', 'eCybermission/trained_models/(Model:FCN-Dense-Layers)_(Epoch:01)_(Loss:0.97)_(Accuracy:1.00).h5')
+    model_path = os.path.join(os.path.dirname(__file__), '..', '..', 'eCybermission/trained_models/(Model:FCN-Dense-Layers)_(Epoch:03)_(MAE_Loss:0.37).h5')
     image_directory_path = os.path.join(os.path.dirname(__file__), '..', '..', 'eCybermission/FCN/images')
     prediction = run.use_model(base64string=base64string, MODEL_PATH=model_path, model_type='FCN-Dense-Layers', IMAGE_DIRECTORY_PATH=image_directory_path)
     return JsonResponse({"prediction":prediction})
