@@ -1,5 +1,4 @@
-import os
-import cv2
+import os, cv2
 import numpy as np
 import tensorflow as tf
 from sklearn import preprocessing
@@ -20,21 +19,18 @@ class Generator(tf.keras.utils.Sequence):
         self.image_min_side = image_min_side
         #saving image paths and labels during initialization
         ABSOLUTE_DATASET_PATH = os.path.join(os.path.dirname(__file__), '..', '..', DATASET_PATH)
+        print(f'The Absolute Dataset Path is: {ABSOLUTE_DATASET_PATH}')
         self.load_image_paths_and_labels(ABSOLUTE_DATASET_PATH)
         self.create_image_groups()
 
-    def load_image_paths_and_labels(self, DATASET_PATH):
+    def load_image_paths_and_labels(self, ABSOLUTE_DATASET_PATH):
         """
         This is used to load a list of image paths and a list of their labels.
         This information will be saved to the object during initialization.
         """
 
         #list of paths of class directories within image directory
-        classes = os.listdir(DATASET_PATH)
-        #creation of LabelBinarizer object, 
-        lb = preprocessing.LabelBinarizer()
-        #fitting LabelBinarizer to current classes
-        lb.fit(classes)
+        classes = os.listdir(ABSOLUTE_DATASET_PATH)
 
         #creating lists for image paths and label
         self.image_paths = []
@@ -42,16 +38,26 @@ class Generator(tf.keras.utils.Sequence):
 
         #iterating through each class
         for class_name in classes:
+            if class_name == 'popular':
+                label = 1
+            if class_name == 'not_popular':
+                label = 0
+            if class_name == 'medium':
+                label = 0.5
+            if class_name == 'low_medium':
+                label = 0.25
+            if class_name == 'high_medium':
+                label = 0.75
             #path for the current class
-            class_path = os.path.join(DATASET_PATH, class_name)
+            class_path = os.path.join(ABSOLUTE_DATASET_PATH, class_name)
             #iterating through each image in the class
             for image_file_name in os.listdir(class_path):
                 #adding the image path
                 self.image_paths.append(os.path.join(class_path, image_file_name))
                 #adding the image label
-                self.image_labels.append(class_name)
+                self.image_labels.append(label)
         #transforming all the labels into numbers
-        self.image_labels = np.array(lb.transform(self.image_labels), dtype='float32')
+        self.image_labels = np.array(self.image_labels, dtype='float32')
         #check that the image_paths and image_labels are the same, which is necessary becuase each label corresponds with an image
         assert len(self.image_paths) == len(self.image_labels)
 

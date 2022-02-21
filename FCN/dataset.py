@@ -1,9 +1,8 @@
 import os, cv2, shutil
-from shutil import copy2
 import numpy as np
 import tensorflow as tf
 
-def split(BASE_PATH = 'selfies/', DATASET_PATH = 'dataset/', TRAIN_SIZE = 50, TEST_SIZE = 50):
+def split(BASE_PATH = 'selfies/', DATASET_PATH = 'dataset/', TRAIN_SIZE = 225, TEST_SIZE = 75):
     """
         This is used to create a directory called dataset
         The final structure of the directory should look like this:
@@ -54,10 +53,11 @@ def split(BASE_PATH = 'selfies/', DATASET_PATH = 'dataset/', TRAIN_SIZE = 50, TE
         class_images_list = os.listdir(class_path)
         np.random.shuffle(class_images_list)
 
-        #putting 100 of the images into training set
+        #It should be noted that each of the classes in the selfies directory has 300 images
+        #putting 275 of the images into training set
         for image in class_images_list[:TRAIN_SIZE]:
-            copy2(os.path.join(class_path, image), class_train)
+            shutil.copy2(os.path.join(class_path, image), class_train)
 
-        #putting the next 100 images into the testing set
+        #putting the next 75 images into the testing set
         for image in class_images_list[TRAIN_SIZE:TRAIN_SIZE+TEST_SIZE]:
-            copy2(os.path.join(class_path, image), class_test)
+            shutil.copy2(os.path.join(class_path, image), class_test)
