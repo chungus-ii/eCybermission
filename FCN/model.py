@@ -54,7 +54,7 @@ def FCN_Dense_model(len_classes=2, dropout_rate=0.2):
     # Fully connected layer 3
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Dense(units=len_classes)(x)
+    x = tf.keras.layers.Dense(units=1)(x)
     predictions = tf.keras.layers.Activation('sigmoid')(x)
 
     model = tf.keras.Model(inputs=input, outputs=predictions)
