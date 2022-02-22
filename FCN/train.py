@@ -11,7 +11,7 @@ def train(model, train_generator, test_generator, direct_path, modeltype, epochs
     datasets.
     """
     #compiling the model
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001), loss='mae', metrics=['mae'])
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.005), loss='mae', metrics=['mae'])
     #creating directory for the models, but only if it does not already exist
     directory_path = os.path.join(os.path.dirname(__file__), '..', '..', direct_path)
     if not os.path.exists(directory_path):
