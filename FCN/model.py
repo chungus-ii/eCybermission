@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-def FCN_Dense_model(len_classes=2, dropout_rate=0.2):
+def FCN_Dense_model(len_classes=1, dropout_rate=0.2):
     #Because this is a Fully Convolutional Neural Network (FCN), the input can have an unspecified size.
     input = tf.keras.layers.Input(shape=(None, None, 3))
 
@@ -29,14 +29,14 @@ def FCN_Dense_model(len_classes=2, dropout_rate=0.2):
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.Activation('relu')(x)
-
+    """
     x = tf.keras.layers.MaxPooling2D()(x)
 
     x = tf.keras.layers.Conv2D(filters=512, kernel_size=3, strides=2)(x)
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.Activation('relu')(x)
-
+    """
     x = tf.keras.layers.GlobalMaxPooling2D()(x)
 
     # Fully connected layer 1
@@ -54,7 +54,7 @@ def FCN_Dense_model(len_classes=2, dropout_rate=0.2):
     # Fully connected layer 3
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Dense(units=1)(x)
+    x = tf.keras.layers.Dense(units=len_classes)(x)
     predictions = tf.keras.layers.Activation('sigmoid')(x)
 
     model = tf.keras.Model(inputs=input, outputs=predictions)

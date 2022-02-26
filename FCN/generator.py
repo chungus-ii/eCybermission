@@ -12,7 +12,7 @@ class Generator(tf.keras.utils.Sequence):
     """
 
     #DATASET_PATH is the training directory or the testing directory, not the directory that contains both
-    def __init__(self, DATASET_PATH, BATCH_SIZE = 4, image_min_side = 50):
+    def __init__(self, DATASET_PATH, BATCH_SIZE = 8, image_min_side = 50):
         #size of the batches that will be generated
         self.batch_size = BATCH_SIZE
         #if the image's smalles side is smaller than this, it will be enarged while keeping it's aspect ratio

@@ -10,9 +10,15 @@ def split(BASE_PATH = 'selfies/', DATASET_PATH = 'dataset/', TRAIN_SIZE = 240, T
             - training
                 - popular
                 - not-popular
+                - high_medium
+                - medium
+                - low_medium
             - testing
                 - popular
                 - not-popular
+                - high_medium
+                - medium
+                - low_medium
         The dataset/training and dataset/testing directories are the two directories that will be utilized by data generators.
     """
     ABSOLUTE_DATASET_PATH = os.path.join(os.path.dirname(__file__), '..', DATASET_PATH)
