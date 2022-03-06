@@ -7,49 +7,49 @@ def FCN_Dense_model(len_classes=1, dropout_rate=0.2):
     x = tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=1)(input)
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Activation('relu')(x)
+    x = tf.keras.layers.Activation(tf.nn.leaky_relu)(x)
 
     x = tf.keras.layers.MaxPooling2D()(x)
 
     x = tf.keras.layers.Conv2D(filters=64, kernel_size=3, strides=1)(x)
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Activation('relu')(x)
+    x = tf.keras.layers.Activation(tf.nn.leaky_relu)(x)
 
     x = tf.keras.layers.MaxPooling2D()(x)
 
     x = tf.keras.layers.Conv2D(filters=128, kernel_size=3, strides=2)(x)
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Activation('relu')(x)
+    x = tf.keras.layers.Activation(tf.nn.leaky_relu)(x)
 
     x = tf.keras.layers.MaxPooling2D()(x)
 
     x = tf.keras.layers.Conv2D(filters=256, kernel_size=3, strides=2)(x)
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Activation('relu')(x)
-    """
+    x = tf.keras.layers.Activation(tf.nn.leaky_relu)(x)
+
     x = tf.keras.layers.MaxPooling2D()(x)
 
     x = tf.keras.layers.Conv2D(filters=512, kernel_size=3, strides=2)(x)
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Activation('relu')(x)
-    """
+    x = tf.keras.layers.Activation(tf.nn.leaky_relu)(x)
+
     x = tf.keras.layers.GlobalMaxPooling2D()(x)
 
     # Fully connected layer 1
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.Dense(units=64)(x)
-    x = tf.keras.layers.Activation('relu')(x)
+    x = tf.keras.layers.Activation(tf.nn.leaky_relu)(x)
 
     #Fully connected layer 2
     x = tf.keras.layers.Dropout(dropout_rate)(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.Dense(units=128)(x)
-    x = tf.keras.layers.Activation('relu')(x)
+    x = tf.keras.layers.Activation(tf.nn.leaky_relu)(x)
 
     # Fully connected layer 3
     x = tf.keras.layers.Dropout(dropout_rate)(x)
@@ -116,7 +116,7 @@ def FCN_model(len_classes=5, dropout_rate=0.2):
     predictions = tf.keras.layers.Activation('softmax')(x)
 
     model = tf.keras.Model(inputs=input, outputs=predictions)
-    
+
     print(model.summary())
     print(f'Total number of layers: {len(model.layers)}')
 

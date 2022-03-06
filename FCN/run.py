@@ -30,14 +30,14 @@ class Run():
         print('Finished Creating Dataset...')
         #compiling model
         model = FCN_Dense_model()
-        print('Model compiled...')
+        print('Model created...')
         #creating generator objects
-        train_generator = Generator('eCybermission/dataset/training')
-        test_generator = Generator('eCybermission/dataset/testing')
+        train_generator = Generator('eCybermission/dataset/training', BATCH_SIZE=2)
+        test_generator = Generator('eCybermission/dataset/testing', BATCH_SIZE=2)
         print('Data generators created...')
         print('Training...')
         #training and saving model
-        model_history = train(model=model, train_generator=train_generator, test_generator=test_generator, direct_path='eCybermission/trained_models', modeltype='FCN-Dense-Layers', epochs=1)
+        model_history = train(model=model, train_generator=train_generator, test_generator=test_generator, direct_path='eCybermission/trained_models', modeltype='FCN-Dense-Layers', epochs=10)
         print('Completed Training, Model Saved.')
 
     def use_model(self, base64string='', MODEL_PATH='', model_type='FCN-Dense-Layers', IMAGE_DIRECTORY_PATH='eCybermission/FCN/images'):
