@@ -4,8 +4,7 @@ from PIL import Image
 from shutil import copyfileobj
 
 """
-This file will take the json data from the Instagram Scraper, use the 100 most liked images and 100 least like images,
-and use them to fill the selfies the directory
+This file will process the json data from the Instagram Scraper
 """
 
 def process(PATH_TO_JSON_FILE):
