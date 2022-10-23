@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ["8080-chungusii-ecybermission-f14dndyoxde.ws-us33.gitpod.io", '
 
 INSTALLED_APPS = [
     'selfie',
-    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +41,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
